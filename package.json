@@ -24,5 +24,13 @@
     "parcel-plugin-nuke-dist": "^1.0.1",
     "posthtml-include": "^1.6.2",
     "sass": "^1.32.8"
+  },
+  "dependencies": {
+    "@atlaskit/spinner": "^15.1.10",
+    "axios": "^0.27.2",
+    "notiflix": "^3.2.5",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "vanilla-back-to-top": "^7.2.1"
   }
 }
