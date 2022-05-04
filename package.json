@@ -31,6 +31,7 @@
     "notiflix": "^3.2.5",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "simplelightbox": "^2.10.3",
     "vanilla-back-to-top": "^7.2.1"
   }
 }
