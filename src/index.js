@@ -69,15 +69,7 @@ function onClick() {
     pageCounter = localStorage.getItem(STORAGE_KEY);
   fetchMovies(searchValue, Number(pageCounter) + 1)
     .then(response => {
-      if (!response.data.hits.length) {
-        localStorage.removeItem(STORAGE_KEY);
-        localStorage.setItem(STORAGE_SEARCH, 1);
-        refs.more.classList.add("visually-hidden");
-        return Notify.warning("We're sorry, but you've reached the end of search results.");
-      }
-      let numbers = response.request.responseURL.match(/\d+/g);
-      localStorage.setItem(STORAGE_KEY, numbers[numbers.length - 1]);
-      renderMovie(response);
+      renderMovie(refs.gallery, response, genres);
     })
     .catch(onSearchError);
 }
