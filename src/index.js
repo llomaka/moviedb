@@ -1,7 +1,10 @@
 import './css/main.css';
 import { Notify } from 'notiflix';
 import { fetchMovies } from './js/fetchMovies';
+import { fetchTrending } from './js/fetchTrending';
 import { renderMovie } from './js/renderMovie';
+import { renderTrending } from './js/renderMovieCard';
+import { renderMovieCard } from './js/renderMovieCard';
 import { getGenres } from './js/getGenres';
 import getRefs from './js/getRefs';
 import { addBackToTop } from 'vanilla-back-to-top'
@@ -24,6 +27,7 @@ async function fetchGenres() {
 
 fetchGenres().then(response => localStorage.setItem("genres", JSON.stringify(response)));
 const genres = JSON.parse(localStorage.getItem("genres"));
+fetchTrending().then(response => renderTrending(refs.gallery, response.results, genres)).catch(onSearchError);
 
 function onSubmit(event) {
   event.preventDefault();
