@@ -1,10 +1,11 @@
 import './css/main.css';
 import { Notify } from 'notiflix';
 import { fetchMovies } from './js/fetchMovies';
-import { renderGallery } from './js/renderGallery';
+import { renderMovie } from './js/renderMovie';
+import { getGenres } from './js/getGenres';
 import getRefs from './js/getRefs';
-import 'simplelightbox/dist/simple-lightbox.min.css';
 import { addBackToTop } from 'vanilla-back-to-top'
+import axios from "axios";
 
 const STORAGE_KEY = 'movie-page-number';
 const STORAGE_SEARCH = 'movie-search-end';
@@ -15,6 +16,14 @@ refs.more.classList.add("visually-hidden");
 refs.button.addEventListener('click', onSubmit);
 refs.more.addEventListener('click', onClick);
 addBackToTop();
+
+async function fetchGenres() {
+  const { data } = await axios('https://api.themoviedb.org/3/genre/movie/list?api_key=fdf0e898687a376156944fbb1ab25196&language=en-US');
+  return data.genres;
+}
+
+fetchGenres().then(response => localStorage.setItem("genres", JSON.stringify(response)));
+const genres = JSON.parse(localStorage.getItem("genres"));
 
 function onSubmit(event) {
   event.preventDefault();
@@ -30,7 +39,8 @@ function onSubmit(event) {
   fetchMovies(value)
     .then(response => {
       // refs.gallery.innerHTML = '';
-      console.log(response);
+      console.log(response.results[0]);
+      renderMovie(refs.gallery, response.results[0], genres);
       // if (response.data.totalHits === 0)
       //   return Notify.failure('Sorry, there are no images matching your search query. Please try again.');
       // Notify.success(`Hooray! We found ${response.data.totalHits} images.`);
@@ -63,7 +73,7 @@ function onClick() {
       }
       let numbers = response.request.responseURL.match(/\d+/g);
       localStorage.setItem(STORAGE_KEY, numbers[numbers.length - 1]);
-      renderGallery(response);
+      renderMovie(response);
     })
     .catch(onSearchError);
 }
@@ -72,3 +82,8 @@ function onSearchError(error) {
   Notify.failure(error);
   console.error(error);
 }
+
+
+// let genre_id = [36, 53, 10752];
+// const parsed = getGenres(genre_id, genres);
+// console.log(parsed);
